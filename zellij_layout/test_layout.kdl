@@ -1,0 +1,16 @@
+layout {
+    pane
+    pane split_direction="vertical" {
+        pane command="python3" {
+            args "print.py"
+            start_suspended true
+        }
+        pane command="htop"
+    }
+    pane size=1 borderless=true {
+        plugin location="zellij:compact-bar"
+    }
+    pane size=1 borderless=true {
+        plugin location="zellij:status-bar"
+    }
+}

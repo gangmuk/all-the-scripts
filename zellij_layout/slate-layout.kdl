@@ -1,0 +1,32 @@
+layout {
+    pane split_direction="vertical" {
+        pane split_direction="horizontal" {
+            pane command="ssh" {
+                args "gangmuk@apt058.apt.emulab.net"
+            }
+            pane command="ssh" {
+                args "gangmuk@apt058.apt.emulab.net"
+            }
+        }
+        pane split_direction="horizontal" {
+            pane command="ssh" {
+                args "gangmuk@apt058.apt.emulab.net"
+            }
+            pane command="ssh" {
+                args "gangmuk@apt058.apt.emulab.net"
+            }
+            pane command="ssh" {
+                args "gangmuk@apt058.apt.emulab.net"
+            }
+            pane command="ssh" {
+                args "gangmuk@apt058.apt.emulab.net"
+            }
+        }
+    }
+    pane size=1 borderless=true {
+        plugin location="zellij:compact-bar"
+    }
+    pane size=1 borderless=true {
+        plugin location="zellij:status-bar"
+    }
+}
