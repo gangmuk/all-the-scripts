@@ -1,0 +1,18 @@
+#!/bin/bash
+
+remove_cpu_field() {
+  local namespace="$1"
+  local exclude_deployments=("${@:2}")
+  local deployment_names=($(kubectl get deployments -n "$namespace" -o jsonpath='{.items[*].metadata.name}'))
+  for deployment in "${deployment_names[@]}"; do
+    if [[ " ${exclude_deployments[@]} " =~ " $deployment " ]]; then
+      continue
+    fi
+    kubectl patch deployment "$deployment" -n "$namespace" --type='json' -p='[
+      {"op": "remove", "path": "/spec/template/spec/containers/0/resources/requests/cpu"},
+      {"op": "remove", "path": "/spec/template/spec/containers/0/resources/limits/cpu"}
+    ]'
+  done
+}
+
+remove_cpu_field default asdf
