@@ -1,0 +1,5 @@
+#!/bin/bash
+
+sudo swapoff -a # Temporarily disable swap
+
+sudo systemctl restart kubelet
