@@ -1,0 +1,27 @@
+layout {
+    pane split_direction="vertical" {
+        pane split_direction="horizontal" {
+            pane
+        }
+		pane split_direction="horizontal" {
+            pane {
+                command "watch"
+                args "-n" "1" "kubectl" "get" "pod"
+            }
+            pane {
+                command "watch"
+                args "-n" "1" "kubectl" "get" "pod" "-n" "aibrix-system"
+            }
+            pane {
+                command "watch"
+                args "-n" "1" "kubectl" "get" "hpa"
+            }
+        }
+    }
+    pane size=1 borderless=true {
+        plugin location="zellij:compact-bar"
+    }
+    pane size=1 borderless=true {
+        plugin location="zellij:status-bar"
+    }
+}

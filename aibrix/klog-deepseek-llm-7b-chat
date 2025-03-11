@@ -1,0 +1,3 @@
+#!/bin/bash
+
+kubectl logs -f deployment/deepseek-llm-7b-chat

@@ -1,0 +1,3 @@
+#!/bin/bash
+
+kubectl logs -f deployment/mock-llama2-7b

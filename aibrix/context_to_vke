@@ -1,0 +1,3 @@
+#!/bin/bash
+
+kubectl config use-context ccr3aths9g2gqedu8asdg@41073177-kcu0mslcp5mhjsva38rpg

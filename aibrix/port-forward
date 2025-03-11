@@ -1,0 +1,11 @@
+#!/bin/bash
+
+## port-forwarding for mock-app svc
+# kubectl port-forward svc/llama2-7b 8000:8000 1>/dev/null 2>&1 & 
+
+## port-forwarding for envoy-gateway-system svc
+## Create a tunnel from your laptop's localhost:8888 to the Envoy Gateway service's port 80
+
+#pgrep -f "port-forward" | xargs -r kill # kill existing port-forwarding processes first
+
+kubectl -n envoy-gateway-system port-forward svc/envoy-aibrix-system-aibrix-eg-903790dc 8888:80 1>/dev/null 2>&1 &
