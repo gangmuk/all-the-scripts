@@ -1,0 +1,59 @@
+#!/bin/bash
+
+# Get all available contexts
+all_contexts=($(kubectl config get-contexts -o name | sort))
+
+# Check if we have any contexts
+if [ ${#all_contexts[@]} -eq 0 ]; then
+    echo "Error: No Kubernetes contexts found."
+    exit 1
+fi
+
+# Get the current context
+current_context=$(kubectl config current-context)
+echo "Current context: $current_context"
+
+# Find the index of the current context
+current_index=-1
+for i in "${!all_contexts[@]}"; do
+    if [ "${all_contexts[$i]}" == "$current_context" ]; then
+        current_index=$i
+        break
+    fi
+done
+
+# If current context is not found in the list, start from the first one
+if [ $current_index -eq -1 ]; then
+    echo "Warning: Current context '$current_context' not found in available contexts."
+    echo "Starting rotation from the first available context."
+    next_index=0
+else
+    # Calculate next index (wrap around to 0 if we're at the end)
+    next_index=$(( (current_index + 1) % ${#all_contexts[@]} ))
+fi
+
+next_context="${all_contexts[$next_index]}"
+
+echo "Available contexts ($(${#all_contexts[@]} total)):"
+for i in "${!all_contexts[@]}"; do
+    marker=""
+    if [ $i -eq $current_index ]; then
+        marker=" (current)"
+    elif [ $i -eq $next_index ]; then
+        marker=" (next)"
+    fi
+    echo "  $((i+1)). ${all_contexts[$i]}$marker"
+done
+
+echo ""
+echo "Switching to: $next_context"
+
+# Switch to the next context
+kubectl config use-context "$next_context"
+
+if [ $? -eq 0 ]; then
+    echo "Successfully switched to context: $next_context"
+else
+    echo "Failed to switch to context: $next_context"
+    exit 1
+fi
